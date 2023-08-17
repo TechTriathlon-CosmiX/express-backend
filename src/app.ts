@@ -1,10 +1,12 @@
 import express, {Express} from 'express';
 import logger from 'morgan';
 import cors from "cors";
-import 'dotenv/config'
+import 'dotenv/config';
+import "reflect-metadata";
 
 // routes
 import apiRouter from "./routes/apiRoutes.js";
+import {AppDataSource} from "./data-source.js";
 
 const app: Express = express();
 const PORT = process.env.PORT || 3001;
@@ -17,9 +19,16 @@ app.use(express.urlencoded({extended: false}));
 
 app.use("/api", apiRouter);
 
-// start server
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+// initialize database connection
+AppDataSource.initialize().then(async (): Promise<void> => {
+  console.log("Database connection initialized successfully");
+
+  // listen for requests
+  app.listen(PORT, (): void => {
+    console.log(`Server started on port ${PORT}`);
+  });
+
+}).catch((error: Error) => console.log(error))
+
 
 export default app;
