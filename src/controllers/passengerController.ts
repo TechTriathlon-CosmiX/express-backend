@@ -13,7 +13,6 @@ export const getAllPassengers = async (req: Request, res: Response) => {
   }
 };
 
-
 // Get a passenger by user_id
 export const getPassengerById = async (req: Request, res: Response) => {
   try {
