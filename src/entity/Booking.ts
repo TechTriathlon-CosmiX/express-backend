@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, Relation } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Relation } from "typeorm"
 import { Passenger } from "./Passenger.js"
 
 @Entity()
@@ -29,8 +29,8 @@ export class Booking {
     net_value: number
 
     @ManyToOne(() => Passenger, (passenger) => passenger.bookings)
-    // @JoinColumn({ name: "user_id" })
-    passenger: Relation<Passenger>;   
+    @JoinColumn({ name: "user_id" })
+    passenger: Relation<Passenger>   
 
     constructor(
         placed_time: string,
