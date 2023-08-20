@@ -1,6 +1,6 @@
 
 import express, {Router} from "express";
-import { loginPassenger,getAllPassengers, getPassengerById, createPassenger, deletePassenger, updatePassenger } from "../controllers/passengerController.js";
+import { registerPassenger,getAllPassengers, getPassengerById, createPassenger, deletePassenger, updatePassenger } from "../controllers/passengerController.js";
 
 
 const router: Router = express.Router();
@@ -8,7 +8,7 @@ const router: Router = express.Router();
 
 
 router.route("/register")
-    .post(loginPassenger)
+    .post(registerPassenger)
    
 
 export default router;
