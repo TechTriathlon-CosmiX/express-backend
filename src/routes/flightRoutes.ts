@@ -1,14 +1,16 @@
 import express, { Router } from "express";
+import {createFlight, getAllFlights, getFlightById, getFlightsForSearch} from "../controllers/flightController";
 
 const router: Router = express.Router();
 
-// router.route("/")
-//     .post(createBooking);
-    // .get(getAllPassengers)
+router.route("/")
+    .post(createFlight)
+    .get(getAllFlights)
 
-// router.route("/:user_id")
-//     .get(getPassengerById)
-//     .delete(deletePassenger)
-//     .put(updatePassenger);
+router.route("/:flightId")
+  .get(getFlightById)
+
+router.route("/search")
+  .post(getFlightsForSearch)
 
 export default router;
