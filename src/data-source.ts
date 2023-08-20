@@ -4,6 +4,7 @@ import { Planet } from "./entity/Planet.js"
 import 'dotenv/config';
 import { Spaceport } from "./entity/Spaceport.js";
 import { Flight } from "./entity/Flight.js";
+import { FlightClass } from "./entity/FlightClass.js";
 
 export const AppDataSource: DataSource = new DataSource({
     type: "mysql",
@@ -14,7 +15,7 @@ export const AppDataSource: DataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [Planet, Spaceport, Flight],
+    entities: [Planet, Spaceport, Flight, FlightClass],
     migrations: [],
     subscribers: [],
     ssl: {

@@ -1,31 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, Double, OneToMany } from "typeorm"
+import { Flight } from "./Flight";
 
 @Entity()
-export class Planet {
+export class FlightClass {
 
     @PrimaryGeneratedColumn()
-    planetId: number
+    classId: number
 
     @Column()
-    planetName: string
-
-    @Column("blob") 
-    image: Buffer;
+    className: string
 
     @Column()
-    description: string
+    basefare: Number
 
-    @OneToOne(() => Spaceport, spaceport => spaceport.planet) 
-    @JoinColumn()
-    spaceport: Spaceport; 
+    flight: any;
 
-    @Column({ nullable: true })
-    spaceportId: number; 
+    @ManyToMany(() => Flight, (flight: { flightclass: any; }) => flight.flightclass) 
+    @JoinColumn()    
 
-    constructor(planetName: string, image: Buffer, description: string) {
-
-        this.planetName = planetName
-        this.image = image
-        this.description = description
+    constructor(className: string, basefare: Number) {
+        this.className = className
+        this.basefare = basefare
     }
 }

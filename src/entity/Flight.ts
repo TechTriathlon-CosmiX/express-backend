@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany } from "typeorm"
 import { Spaceport } from "./Spaceport.js";
+import { FlightClass } from "./FlightClass.js";
 
 @Entity()
 export class Flight {
@@ -21,12 +22,13 @@ export class Flight {
 
     spaceport: Spaceport; 
 
-    @ManyToMany(() => Spaceport, spaceport => spaceport.flight) 
+    @ManyToMany(() => FlightClass, flightclass => flightclass.flight) 
     @JoinColumn()
     
 
     @Column({ nullable: true })
     spaceportId: number; 
+    flightclass: any;
 
     constructor(arrivalTime: Date, departureTime: Date, flightStatus: string, freeCabinCount: number, spaceportId: number) {
 
