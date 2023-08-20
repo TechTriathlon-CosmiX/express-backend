@@ -6,7 +6,7 @@ import { Spaceship } from "../entity/Spaceship.js";
 
 
 // Get all spaceship
-export const getAllSpacelines = async (req: Request, res: Response) => {
+export const getallspaceships = async (req: Request, res: Response) => {
   try {
     const SpaceshipRepository = AppDataSource.getRepository(Spaceship);
     const spaceship = await SpaceshipRepository.find();
@@ -17,7 +17,7 @@ export const getAllSpacelines = async (req: Request, res: Response) => {
 };
 
 // Get a passenger by user_id
-export const getSpacelineById = async (req: Request, res: Response) => {
+export const getspaceshipbyId = async (req: Request, res: Response) => {
   try {
     const SpaceshipRepository = AppDataSource.getRepository(Spaceship);
 
@@ -42,7 +42,7 @@ export const getSpacelineById = async (req: Request, res: Response) => {
 };
 
 // Create a new spaceline
-export const createSpaceline = async (req: Request, res: Response) => {
+export const createSpaceship = async (req: Request, res: Response) => {
   try {
     const SpaceshipRepository = AppDataSource.getRepository(Spaceship);
     const { name,passenger_count,cabin_count, image,facilities } = req.body;
