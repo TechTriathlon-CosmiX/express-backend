@@ -7,9 +7,9 @@ router.route("/")
   .post(createBooking)
   .get(getAllBookings)
 
-router.route("/:id").get(getBookingById)
-
 router.route("/my")
   .get(getBookingsByUser)
+
+router.route("/my/:id").get(getBookingById)
 
 export default router;

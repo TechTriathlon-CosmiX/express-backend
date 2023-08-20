@@ -31,7 +31,7 @@ export const createBooking = async (req: Request, res: Response) => {
 
     const flight = await AppDataSource.getRepository(Flight).findOne({where: {id: flightId}});
     if (!flight) {
-      return res.status(404).json({error: "Flight not found"});
+      return res.status(404).json({error: "Booking not found"});
     }
 
     const cabins = await AppDataSource.getRepository(Cabin).findBy({cabinNo: cabinIds});
