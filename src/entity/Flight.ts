@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany } from "typeorm"
 import { Spaceport } from "./Spaceport.js";
 
 @Entity()
@@ -19,9 +19,11 @@ export class Flight {
     @Column()
     freeCabinCount: number; 
 
-    @OneToOne(() => Spaceport, spaceport => spaceport.planet) 
-    @JoinColumn()
     spaceport: Spaceport; 
+
+    @ManyToMany(() => Spaceport, spaceport => spaceport.flight) 
+    @JoinColumn()
+    
 
     @Column({ nullable: true })
     spaceportId: number; 
