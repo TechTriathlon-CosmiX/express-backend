@@ -7,6 +7,8 @@ import "reflect-metadata";
 // routes
 import apiRouter from "./routes/apiRoutes.js";
 import {AppDataSource} from "./data-source.js";
+// import swaggerUi from 'swagger-ui-express';
+// import swaggerDocument from './swagger.json';
 
 const app: Express = express();
 const PORT = process.env.PORT || 3001;
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.use("/api", apiRouter);
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // initialize database connection
 AppDataSource.initialize().then(async (): Promise<void> => {
