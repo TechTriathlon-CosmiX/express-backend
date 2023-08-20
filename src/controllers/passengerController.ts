@@ -78,6 +78,10 @@ export const registerPassenger = async (req: Request, res: Response) => {
     if (!name || !email || !phone || !gender || !home_planet || !home_country || !spacepass_no || !dob || !password) {
       return res.status(400).json({ error: "All fields are required" });
     }
+    const firstUser = await userRepository.findOneBy({ email: email });
+    if (firstUser) {
+        return res.status(404).json({ error: "user already exist" });
+      }
 
     const newPassenger = new Passenger(name, phone, gender, home_planet, home_country, spacepass_no, dob);
     const savedPassenger = await passengerRepository.save(newPassenger);
@@ -93,7 +97,6 @@ export const registerPassenger = async (req: Request, res: Response) => {
 
     res.status(200).json({ status: true, token: token });
 
-    res.status(201).json(savedPassenger);
   } catch (error) {
     res.status(500).json({ error: "An error occurred while creating a passenger" });
   }
@@ -129,7 +132,7 @@ export const loginPassenger = async (req: Request, res: Response) => {
     const token = await generateToken(tokenData, "mal123", '1h')
 
 
-    res.status(200).json({ status: true, token: token });
+   return res.status(200).json({ status: true, token: token });
 
     // res.status(201).json(savedPassenger);
   } catch (error) {
