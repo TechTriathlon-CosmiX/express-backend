@@ -1,26 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm"
+import { Passenger } from "./Passenger";
 
 @Entity()
 export class User {
 
     @PrimaryGeneratedColumn({ type: "int" })
-    id: number
-
-    @Column({ type: "int" })
     uid: number
 
     @Column({ type: "varchar", length: 255 })
     email: string
 
-   @Column({ type: "varchar", length: 255 })
+    @Column({ type: "varchar", length: 255 })
     password_hash: string
 
-  
-
-    constructor(uid: number, email: string, password_hash: string) {
+    constructor(email: string, password_hash: string) {
         this.email = email
-        this.uid = uid
         this.password_hash = password_hash
-        
     }
 }
