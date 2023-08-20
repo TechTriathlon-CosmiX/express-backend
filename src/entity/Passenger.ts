@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Relation } from "typeorm"
+import { Booking } from "./Booking.js"
 
 @Entity()
 export class Passenger {
@@ -27,6 +28,9 @@ export class Passenger {
     @Column({ type: "date" })
     dob: string
 
+    @OneToMany(() => Booking, (booking) => booking.passenger)
+    bookings: Relation<Booking>[]
+
     constructor(name: string, phone: string, gender: string, home_planet: string, home_country: string, spacepass_no: string, dob: string) {
         this.name = name
         this.phone = phone
@@ -35,5 +39,5 @@ export class Passenger {
         this.home_country = home_country
         this.spacepass_no = spacepass_no
         this.dob = dob
-    } 
+    }
 }
