@@ -1,54 +1,59 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, Relation } from "typeorm"
-import { Passenger } from "./Passenger.js"
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, ManyToMany, JoinTable} from 'typeorm';
+import { Flight } from './Flight.js';
+import { User } from './User.js';
+import {Cabin} from "./Cabin.js";
+import {Payment} from "./Payment.js";
 
 @Entity()
 export class Booking {
+    @PrimaryGeneratedColumn()
+    bookingId: number;
 
-    @PrimaryGeneratedColumn({ type: "int" })
-    booking_id: number
+    @Column({ type: 'datetime', nullable: false })
+    placedTime: Date;
 
-    @Column({ type: "datetime" })
-    placed_time: string
+    @Column({ type: 'int', nullable: false })
+    adultCount: number;
 
-    @Column({ type: "int" })
-    adult_count: number
+    @Column({ type: 'int', nullable: false })
+    childCount: number;
 
-    @Column({ type: "int" })
-    child_count: number
+    @Column({ type: 'text', nullable: true })
+    additionalRemarks: string;
 
-    @Column({ type: "text", nullable: true })
-    additional_remarks: string
+    @Column({ type: 'int', nullable: true })
+    additionalLuggageCapacity: number;
 
-    @Column({ type: "int", nullable: true })
-    additional_luggage_capacity: number
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true, default: 0 })
+    additionalLuggageCharge: number;
 
-    @Column({ type: "decimal", precision: 4, scale: 2, default: 0 })
-    additional_luggage_charge: number
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+    netValue: number;
 
-    @Column({ type: "decimal", precision: 10, scale: 2 })
-    net_value: number
+    @ManyToOne(() => Flight, flight => flight.bookings)
+    flight: Flight;
 
-    @ManyToOne(() => Passenger, (passenger) => passenger.bookings)
-    // @JoinColumn({ name: "user_id" })
-    passenger: Relation<Passenger>;   
+    @ManyToOne(() => User, user => user.bookings)
+    user: User;
 
-    constructor(
-        placed_time: string,
-        adult_count: number,
-        child_count: number,
-        additional_remarks: string,
-        additional_luggage_capacity: number,
-        additional_luggage_charge: number,
-        net_value: number,
-        passenger: Relation<Passenger>
-    ) {
-        this.placed_time = placed_time;
-        this.adult_count = adult_count;
-        this.child_count = child_count;
-        this.additional_remarks = additional_remarks;
-        this.additional_luggage_capacity = additional_luggage_capacity;
-        this.additional_luggage_charge = additional_luggage_charge;
-        this.net_value = net_value;
-        this.passenger = passenger;
+    @ManyToMany(() => Cabin, cabin => cabin.bookings)
+    @JoinTable()
+    cabins: Cabin[];
+
+    @OneToOne(() => Payment, payment => payment.booking)
+    payment: Payment;
+
+  constructor(placedTime: Date, adultCount: number, childCount: number, additionalRemarks: string, additionalLuggageCapacity: number, additionalLuggageCharge: number, netValue: number, flight: Flight, user: User, cabins: Cabin[], payment: Payment) {
+        this.placedTime = placedTime;
+        this.adultCount = adultCount;
+        this.childCount = childCount;
+        this.additionalRemarks = additionalRemarks;
+        this.additionalLuggageCapacity = additionalLuggageCapacity;
+        this.additionalLuggageCharge = additionalLuggageCharge;
+        this.netValue = netValue;
+        this.flight = flight;
+        this.user = user;
+        this.cabins = cabins;
+        this.payment = payment;
     }
 }

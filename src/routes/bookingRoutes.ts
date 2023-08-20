@@ -1,15 +1,15 @@
-import express, { Router } from "express";
-import { createBooking } from "../controllers/bookingController.js";
+import express, {Router} from "express";
+import {createBooking, getAllBookings, getBookingById, getBookingsByUser} from "../controllers/bookingController.js";
 
 const router: Router = express.Router();
 
 router.route("/")
-    .post(createBooking);
-    // .get(getAllPassengers)
+  .post(createBooking)
+  .get(getAllBookings)
 
-// router.route("/:user_id")
-//     .get(getPassengerById)
-//     .delete(deletePassenger)
-//     .put(updatePassenger);
+router.route("/:id").get(getBookingById)
+
+router.route("/my")
+  .get(getBookingsByUser)
 
 export default router;
