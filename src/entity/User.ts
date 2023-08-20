@@ -3,21 +3,24 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ type: "int" })
     id: number
 
-    @Column()
-    firstName: string
+    @Column({ type: "int" })
+    uid: number
 
-    @Column()
-    lastName: string
+    @Column({ type: "varchar", length: 255 })
+    email: string
 
-    @Column()
-    age: number
+   @Column({ type: "varchar", length: 255 })
+    password_hash: string
 
-    constructor(firstName: string, lastName: string, age: number) {
-        this.firstName = firstName
-        this.lastName = lastName
-        this.age = age
+  
+
+    constructor(uid: number, email: string, password_hash: string) {
+        this.email = email
+        this.uid = uid
+        this.password_hash = password_hash
+        
     }
 }
