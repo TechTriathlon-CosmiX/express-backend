@@ -13,6 +13,31 @@ export const getAllPassengers = async (req: Request, res: Response) => {
   }
 };
 
+
+// Get a passenger by user_id
+export const getPassengerById = async (req: Request, res: Response) => {
+  try {
+    const passengerRepository = AppDataSource.getRepository(Passenger);
+    const { user_id } = req.params;
+
+    const userIdAsNumber = Number(user_id);
+
+    if (isNaN(userIdAsNumber)) {
+      return res.status(400).json({ error: "Invalid user ID format" });
+    }
+
+    const passenger = await passengerRepository.findOne({ where: { user_id: userIdAsNumber } });
+
+    if (!passenger) {
+      return res.status(404).json({ error: "Passenger not found" });
+    }
+
+    res.json(passenger);
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while fetching the passenger" });
+  }
+};
+
 // Create a new passenger
 export const createPassenger = async (req: Request, res: Response) => {
   try {
@@ -31,16 +56,19 @@ export const createPassenger = async (req: Request, res: Response) => {
   }
 };
 
-
 // Delete a passenger by ID
 export const deletePassenger = async (req: Request, res: Response) => {
   try {
     const passengerRepository = AppDataSource.getRepository(Passenger);
-    const { id } = req.params;
+    const { user_id } = req.params;
 
-    const passenger = await passengerRepository.findOne({
-      where: { user_id: id }, 
-    });
+    const userIdAsNumber = Number(user_id);
+
+    if (isNaN(userIdAsNumber)) {
+      return res.status(400).json({ error: "Invalid user ID format" });
+    }
+
+    const passenger = await passengerRepository.findOne({ where: { user_id: userIdAsNumber } });
     
     if (!passenger) {
       return res.status(404).json({ error: "Passenger not found" });
@@ -58,10 +86,16 @@ export const deletePassenger = async (req: Request, res: Response) => {
 export const updatePassenger = async (req: Request, res: Response) => {
   try {
     const passengerRepository = AppDataSource.getRepository(Passenger);
-    const { id } = req.params;
+    const { user_id } = req.params;
     const { name, phone, gender, home_planet, home_country, spacepass_no, dob } = req.body;
 
-    const passenger = await passengerRepository.findOne(id);
+    const userIdAsNumber = Number(user_id);
+
+    if (isNaN(userIdAsNumber)) {
+      return res.status(400).json({ error: "Invalid user ID format" });
+    }
+
+    const passenger = await passengerRepository.findOne({ where: { user_id: userIdAsNumber } });
 
     if (!passenger) {
       return res.status(404).json({ error: "Passenger not found" });
