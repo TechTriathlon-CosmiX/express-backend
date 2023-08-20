@@ -23,11 +23,10 @@ export class Planet {
     @Column({ nullable: true })
     spaceportId: number; 
 
-    constructor(planetName: string, image: Buffer, description: string, spaceportId: number) {
+    constructor(planetName: string, image: Buffer, description: string) {
 
         this.planetName = planetName
         this.image = image
         this.description = description
-        this.spaceportId = spaceportId
     }
 }

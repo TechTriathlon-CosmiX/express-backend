@@ -18,10 +18,9 @@ export class Spaceport {
     @OneToMany(() => Planet, planet => planet.spaceport) 
     planets: Planet[]; 
 
-    constructor(spaceportName: string,  location: string, planets: Planet[]) {
+    constructor(spaceportName: string,  location: string) {
 
         this.spaceportName = spaceportName
         this.location = location
-        this.planets = planets
     }
 }

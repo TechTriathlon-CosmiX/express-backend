@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source.js";
 import { Planet } from "../entity/Planet.js";
-import { Spaceport } from "../entity/Spaceport.js";
 
 // Get all planets
 export const getAllPlanets = async (req: Request, res: Response) => {
@@ -43,10 +42,9 @@ export const getPlanetById = async (req: Request, res: Response) => {
 export const updatePlanet = async (req: Request, res: Response) => {
   try {
     const planetRepository = AppDataSource.getRepository(Planet);
-    const spaceportRepository = AppDataSource.getRepository(Spaceport);
 
     const { planetId } = req.params;
-    const { image,description,spaceportId } = req.body;
+    const { image,description } = req.body;
 
 
     const planetIdAsNumber = Number(planetId);
@@ -63,7 +61,6 @@ export const updatePlanet = async (req: Request, res: Response) => {
 
     planet.image = image;
     planet.description = description;
-    planet.spaceportId = spaceportId;
 
     const updatedPlanet = await planetRepository.save(planet);
 
@@ -77,18 +74,17 @@ export const updatePlanet = async (req: Request, res: Response) => {
 export const createPlanet = async (req: Request, res: Response) => {
     try {
       const planetRepository = AppDataSource.getRepository(Planet);
-      const spaceportRepository = AppDataSource.getRepository(Spaceport);
 
-      const { planetName, image, description,  spaceportId} = req.body;
+      const { planetName, image, description} = req.body;
   
-      if (!planetName || !image || !description || !spaceportId) {
+      if (!planetName || !image || !description ) {
         return res.status(400).json({ error: "All fields are required" });
       }
   
-      const newPlanet = new Planet(planetName, image, description, spaceportId);
+      const newPlanet = new Planet(planetName, image, description);
       const savedPlanet = await planetRepository.save(newPlanet);
       res.status(201).json(savedPlanet);
     } catch (error) {
-      res.status(500).json({ error: "An error occurred while creating a passenger" });
+      res.status(500).json({ error: "An error occurred while creating a planet" });
     }
   };
