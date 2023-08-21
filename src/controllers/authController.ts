@@ -25,7 +25,11 @@ export const registerUser = async (req: Request, res: Response) => {
     // const token = await generateToken(tokenData, "mal123", '1h')
 
     if (savedUser) {
-      res.status(201).json(savedUser.uid);
+      const responseData = {
+        uid: savedUser.uid,
+        message: "User created successfully"
+      }
+      res.status(201).json(responseData);
     }
 
   } catch (error) {
@@ -55,7 +59,12 @@ export const loginUser = async (req: Request, res: Response) => {
     const tokenData = {id: user.uid, email: user.email}
     const token = await generateToken(tokenData, process.env.JWT_SECRET || "secret", '1h')
 
-    res.status(200).json({status: true, token: token});
+    const responseData = {
+      loggedIn: true,
+      email: user.email,
+      bearerToken: token,
+    }
+    res.status(200).json(responseData);
 
   } catch (error) {
     console.log(error);
